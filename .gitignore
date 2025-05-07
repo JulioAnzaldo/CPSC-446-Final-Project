@@ -1,0 +1,75 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# SQLite database
+*.db
+cloud_access.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs and reports
+logs/
+*.log
+coverage.xml
+htmlcov/
+.tox/
+
+# pytest
+.cache/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Pre-commit
+.pre-commit-config.yaml
+# (ignore hook-specific caches)
+.pre-commit/
+
+# Env files
+.env
+.env.*
+
+# Uvicorn reload files
+reload/.
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Black / isort caches
+.black/
+isort/
