@@ -6,10 +6,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..db import SessionLocal
 
-router = APIRouter(
-    prefix="/permissions",
-    tags=["permissions"],
-)
+router = APIRouter(prefix="/permissions", tags=["permissions"])
 
 
 def get_db():

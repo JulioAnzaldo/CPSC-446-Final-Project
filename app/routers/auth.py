@@ -9,11 +9,12 @@ from .. import models, schemas
 from ..utils.security import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     create_access_token,
+    get_current_user,
     get_db,
     verify_password,
 )
 
-router = APIRouter(tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 # Login
@@ -52,5 +53,5 @@ def login_for_token(
 
 
 @router.get("/users/me", response_model=schemas.User, status_code=status.HTTP_200_OK)
-def read_users_me(current_user: models.User = Depends(get_db)):
+def read_users_me(current_user: models.User = Depends(get_current_user)):
     return current_user
