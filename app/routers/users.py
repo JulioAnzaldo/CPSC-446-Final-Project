@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from werkzeug.security import generate_password_hash
 
 from .. import models, schemas
 from ..db import SessionLocal
-from ..utils.security import require_admin
+from ..utils.security import hash_password, require_admin
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -26,10 +25,10 @@ def create_user(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
             detail="Email already registered",
         )
 
-    # Hash the password
-    hashed_pw = generate_password_hash(user_in.password)
+    # Hash the incoming password
+    hashed_pw = hash_password(user_in.password)
 
-    # Create and persist
+    # Create & persist the user
     new_user = models.User(
         username=user_in.username,
         email=user_in.email,

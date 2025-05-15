@@ -44,8 +44,8 @@ This project provides a backend system that dynamically manages access to multip
 
 1. Clone the repo:  
 ```bash
-git clone https://github.com/JulioAnzaldo/CPSC-446-Final-Project
-cd cloud-access-management
+git clone https://github.com/JulioAnzaldo/Cloud-Service-Access-Management-System
+cd Cloud-Service-Access-Management-System
 ```
 
 2. Create and activate a virtual environment:

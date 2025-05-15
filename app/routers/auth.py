@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from passlib.exc import UnknownHashError
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
@@ -16,21 +17,33 @@ router = APIRouter(tags=["auth"])
 
 
 # Login
-@router.post(
-    "/auth/token", response_model=schemas.Token, status_code=status.HTTP_200_OK
-)
+@router.post("/token", response_model=schemas.Token)
 def login_for_token(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
     user = (
         db.query(models.User).filter(models.User.username == form_data.username).first()
     )
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    # safely verify—even if hashed_password is bad
+    try:
+        valid = verify_password(form_data.password, user.hashed_password)
+    except UnknownHashError:
+        valid = False
+
+    if not valid:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
     access_token = create_access_token(
         {"sub": user.username},
         expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
